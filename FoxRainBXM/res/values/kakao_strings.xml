@@ -1,0 +1,10 @@
+<resources>
+<!--     <string name="kakao_app_key">d1993a2937f893f6c3fb75b2b985f100</string> -->
+<!--     <string name="kakao_scheme">kakaod1993a2937f893f6c3fb75b2b985f100</string> -->
+<!--     <string name="kakao_app_key">325fac158736e50cba64a411d005f2f8</string> -->
+<!-- 	<string name="kakao_scheme">kakao325fac158736e50cba64a411d005f2f8</string> -->
+    <string name="kakao_app_key">7589418808d4eed056b7e3e324990f35</string>
+	<string name="kakao_scheme">kakao7589418808d4eed056b7e3e324990f35</string>
+    <string name="kakaolink_host">kakaolink</string>
+    <string name="kakaostory_host">kakaostory</string>
+</resources>

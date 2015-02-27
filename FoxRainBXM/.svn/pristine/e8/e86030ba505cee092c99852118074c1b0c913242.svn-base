@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="viewpager_margin">-30dp</dimen>
+        <dimen name="g_width">157.5px</dimen>
+    <dimen name="f_size">45dp</dimen>
+    <dimen name="g_height">300px</dimen>
+</resources>

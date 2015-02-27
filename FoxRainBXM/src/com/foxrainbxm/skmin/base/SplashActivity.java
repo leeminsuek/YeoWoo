@@ -1,0 +1,168 @@
+package com.foxrainbxm.skmin.base;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Base64;
+import android.util.Log;
+import android.widget.LinearLayout;
+
+import com.brainyxlib.BrUtilManager;
+import com.brainyxlib.BrUtilManager.dialogclick;
+import com.foxrainbxm.R;
+import com.foxrainbxm.WriteFileLog;
+import com.foxrainbxm.skmin.base.HttpTask.OnTaskResultListener;
+import com.foxrainbxm.skmin.base.SharedValues.SharedKeys;
+import com.foxrainbxm.skmin.login.Login00004;
+import com.google.android.gcm.GCMRegistrar;
+
+/**
+ * 2014. 10. 5.
+ * MinKhun
+ *
+ * SplashActivity
+ */
+
+public class SplashActivity extends LoginBaseActivity {
+	
+	int postNo;
+	String viewtype="";
+	public static SplashActivity instance = null;
+	public static SplashActivity  getinstance (){
+		return instance;
+	}
+	
+	LinearLayout linearLayout_loading;
+	Handler handler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			if(!checkType(new OnTaskResultListener(){
+				@Override
+				public void onTaskResult(boolean success, Map<String, Object> result, String message) {
+					if (!success) {
+						if(viewtype.equals("")) {
+							startActivity(new Intent(SplashActivity.this, Login00004.class));
+							finish();
+						}
+						else {
+							startActivity(new Intent(SplashActivity.this, Login00004.class).putExtra("viewtype", viewtype).putExtra("postNo", postNo));
+							finish();
+						}
+					}
+				}
+			},linearLayout_loading)){
+				if(viewtype.equals("")) {
+					startActivity(new Intent(SplashActivity.this, Login00004.class));
+					finish();
+				}
+				else {
+					startActivity(new Intent(SplashActivity.this, Login00004.class).putExtra("viewtype", viewtype).putExtra("postNo", postNo));
+					finish();
+				}
+				
+			}
+		}
+	};
+	
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.splash00001);
+		instance = this;
+		WriteFileLog.initialize(this);
+		
+		Intent intent = getIntent();
+		boolean result = intent.getBooleanExtra("yn", false);
+		if(result) {
+			viewtype = intent.getStringExtra("viewtype");
+			postNo = intent.getIntExtra("postNo", 0);
+		}
+	
+		
+		
+		initFacebook(null);
+		linearLayout_loading=	(LinearLayout)findViewById(R.id.linearLayout_loading);
+		registerGcm();
+	}
+	
+	public void unRegister(){
+		BrUtilManager.getInstance().ShowDialog1btn(SplashActivity.this, getString(R.string.app_name), "푸쉬 아이디를 받아올수 없습니다. 구글계정을 확인해주세요",new dialogclick() {
+			@Override
+			public void setondialogokclick() {
+				finish();
+			}
+			
+			@Override
+			public void setondialocancelkclick() {
+				
+			}
+		});
+	}
+	public void loading(){
+		handler.sendEmptyMessageDelayed(0, 2000);
+	}
+	
+	/*private boolean checkPlayServices() {
+		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		if (resultCode != ConnectionResult.SUCCESS) {
+			if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+				GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+			} else {
+			}
+			return false;
+		}
+		return true;
+	}*/
+	
+	public void registerGcm() {
+		String regId = SharedValues.getSharedValue(this, SharedKeys.PUSH_KEY);
+		if(regId == null || regId.length() < 1){
+			GCMRegistrar.checkDevice(this);
+	        GCMRegistrar.checkManifest(this);
+        	GCMRegistrar.register(this, projectID);	
+		/*	if (checkPlayServices()) {
+				registerInBackground();
+			} else {
+				loading();
+			}*/
+		}
+		else {
+			loading();
+		}
+		Log.d("reg", regId);
+	}
+	
+	
+	/*private void registerInBackground() {
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				try {
+					GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(getBaseContext());
+					String regId = gcm.register(projectID);
+					Log.d("reg", regId);
+					if (regId != null && regId.length() > 0) {
+						SharedValues.setSharedValue(getBaseContext(), SharedKeys.PUSH_KEY, regId);
+					}
+				} catch (IOException ex) {
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void v) {
+				loading();
+			}
+		}.execute(null, null, null);
+	}*/
+}

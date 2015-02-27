@@ -1,0 +1,98 @@
+package com.foxrainbxm.skmin.setting;
+
+import java.util.Map;
+
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+import com.foxrainbxm.R;
+import com.foxrainbxm.WriteFileLog;
+import com.foxrainbxm.base.BaseActivity;
+import com.foxrainbxm.jjlim.libary.CustomEditText;
+import com.foxrainbxm.skmin.base.HttpTask.OnTaskResultListener;
+import com.foxrainbxm.skmin.base.Popup1Button;
+import com.foxrainbxm.skmin.base.SharedValues;
+import com.foxrainbxm.skmin.base.SharedValues.SharedKeys;
+import com.foxrainbxm.util.RecycleUtils;
+
+/**
+ * 2014. 10. 5.
+ * MinKhun
+ *
+ * Setting00023
+ * 비밀번호 변경하기
+ */
+public class Setting00023 extends BaseActivity {
+	
+	@Override
+	protected void onDestroy() {
+		try {
+			 System.gc();
+			 RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		super.onDestroy();
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.setting00023);
+		View backbutton = findViewById(R.id.btnTitleBack);
+		backbutton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		
+		Button btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
+		final CustomEditText editOld = (CustomEditText) findViewById(R.id.editOld);
+		final CustomEditText editNew = (CustomEditText) findViewById(R.id.editNew);
+		
+		btnChangePassword.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				String oldPassword = editOld.getText().toString();
+				final String newPassword = editNew.getText().toString();
+				
+				if(!checkLength(newPassword, 6, 20)){
+					new Popup1Button(Setting00023.this, "패스워드는 영문 대/소문자, 숫자, 특수문자를 구분하여 6~20자 입니다.", null).show();
+					return;
+				}
+				
+				getApi().userChangePassword(SharedValues.getSharedValue(getBaseContext(), SharedKeys.EMAIL), oldPassword, newPassword, new OnTaskResultListener() {
+					@Override
+					public void onTaskResult(boolean success, Map<String, Object> result, String message) {
+						if(success){
+							new Popup1Button(Setting00023.this, "비밀번호 변경에 성공했습니다.", new Dialog.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									SharedValues.setSharedValue(getBaseContext(), SharedKeys.PASSWORD, newPassword);
+									finish();
+								}
+							}).show();
+							
+						}
+						else {
+							new Popup1Button(Setting00023.this, "비밀번호가 일치하지 않습니다", null).show();
+						}
+					}
+				});
+			}
+		});
+	}
+	
+	private boolean checkLength(String text, int from, int to){
+		if(text != null && text.length() >= from && text.length() <= to){
+			return true;
+		}
+		return false;
+	}
+}

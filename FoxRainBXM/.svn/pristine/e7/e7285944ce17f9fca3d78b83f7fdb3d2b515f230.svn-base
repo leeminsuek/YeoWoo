@@ -1,0 +1,118 @@
+package com.foxrainbxm.skmin.setting;
+
+import java.util.ArrayList;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.brainyxlib.Dataparsing;
+import com.foxrainbxm.Common;
+import com.foxrainbxm.R;
+import com.foxrainbxm.base.BaseActivity;
+import com.foxrainbxm.base.ResizeImageView;
+import com.foxrainbxm.util.RecycleUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+/**
+ * 2014. 10. 5.
+ * MinKhun
+ *
+ * Setting01116
+ */
+public class Setting01116 extends BaseActivity {
+	
+	ArrayList<String>filename = new ArrayList<String>();
+	ImageView playbtn;
+	LinearLayout imglayout;
+	RelativeLayout imgview;
+	
+	@Override
+	protected void onDestroy() {
+		try {
+			 System.gc();
+			 RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		super.onDestroy();
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.setting01116);
+		View backbutton = findViewById(R.id.btnTitleBack);
+		backbutton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		
+		String title = getIntent().getStringExtra("title");
+		String time = getIntent().getStringExtra("time");
+		String contents = getIntent().getStringExtra("contents");
+		
+		TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
+		txtTitle.setText(title);
+		TextView txtTime = (TextView) findViewById(R.id.txtTime);
+		txtTime.setText(time);
+		
+		playbtn = (ImageView)findViewById(R.id.playbtn);
+		imglayout = (LinearLayout)findViewById(R.id.imglayout);
+		imgview = (RelativeLayout)findViewById(R.id.imgv);
+		setImage(contents);
+	}
+
+	public void setImage(String contents){
+		try {
+			Dataparsing paring = new Dataparsing();
+			paring.setOnDataCall(new Dataparsing.SetDataCall() {
+				@Override
+				public void onSetDataCall(int arg0, String arg1, String arg2) {
+					if(arg0 == 1){
+						TextView txtContents = (TextView) findViewById(R.id.txtContents);
+						txtContents.setText(arg1);
+					}else if(arg0 ==2){
+						filename.add(arg1);
+						playbtn.setVisibility(View.GONE);
+						imglayout.setVisibility(View.VISIBLE);
+						imgview.setVisibility(View.VISIBLE);
+					}else if(arg0 == 3){
+						filename.add(arg2);
+						playbtn.setVisibility(View.VISIBLE);
+						playbtn.setTag(arg1);
+						imglayout.setVisibility(View.VISIBLE);
+						imgview.setVisibility(View.VISIBLE);
+					}
+				}
+			});
+			
+			paring.DataParsing(contents);
+			SetView();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void SetView(){
+		try {
+				imglayout.removeAllViews();
+				for(int i = 0;i<filename.size();i++){
+					LinearLayout hederimg =  (LinearLayout)getLayoutInflater().inflate(R.layout.s00117_header_img, null); //
+					ResizeImageView imgview = (ResizeImageView)hederimg.findViewById(R.id.imageview);
+					myApp.imageloder.displayImage(Common.ImageUrl + filename.get(i), imgview, myApp.options);
+					imglayout.addView(hederimg);
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

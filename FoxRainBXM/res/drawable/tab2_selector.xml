@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/popMintButton_Selector">
+
+    <!-- Non Focused states -->
+    <item android:drawable="@drawable/main_tap_menu_2" android:state_checked="false"/>
+
+    <!-- Checked -->
+    <item android:drawable="@drawable/main_tap_menu_2_dw" android:state_checked="true"/>
+</selector>

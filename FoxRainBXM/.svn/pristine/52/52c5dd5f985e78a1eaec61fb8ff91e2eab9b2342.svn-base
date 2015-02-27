@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="10dip" >
+
+    <RelativeLayout
+        android:id="@+id/replylayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sub_list_bg"
+        android:padding="5dip" >
+
+        <ImageView
+            android:id="@+id/profileimg"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:scaleType="matrix"
+            android:background="@drawable/ctt_profile_bg_n" />
+
+        <TextView
+            android:id="@+id/regtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="30분전" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dip"
+            android:layout_marginRight="3dip"
+            android:layout_toLeftOf="@id/regtime"
+            android:layout_toRightOf="@id/profileimg"
+            android:paddingRight="10dip"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="3dip"
+            android:layout_marginRight="3dip"
+            android:layout_marginTop="3dip"
+            android:layout_toLeftOf="@id/regtime"
+            android:layout_toRightOf="@id/profileimg"
+            android:text="" />
+
+        <ImageButton
+            android:id="@+id/btn_list_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/regtime"
+            android:layout_alignTop="@+id/title"
+            android:layout_toLeftOf="@+id/regtime"
+            android:background="@android:color/transparent"
+            android:src="@drawable/btn_delete"
+            android:layout_marginRight="5dp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+</LinearLayout>

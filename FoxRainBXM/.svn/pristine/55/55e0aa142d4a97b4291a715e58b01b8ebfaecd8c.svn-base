@@ -1,0 +1,96 @@
+<resources>
+
+    <string name="app_name">FoxRainBXM</string>
+    
+    
+    <!-- <string name="kakao_app_key">d1993a2937f893f6c3fb75b2b985f100</string> -->
+    <string name="kakao_app_key">7589418808d4eed056b7e3e324990f35</string>
+    <!-- <string name="kakao_scheme">kakaod1993a2937f893f6c3fb75b2b985f100</string> -->
+	<string name="kakao_scheme">kakao7589418808d4eed056b7e3e324990f35</string>
+    <string name="kakaostory_host">kakaostory</string>
+        <string name="kakaolink_host">kakaolink</string>
+    
+    
+    <!-- <string name="facebook_app_id">189032561134597</string> -->
+    <string name="facebook_app_id">1504185363164588</string>
+    
+	<string name="lost_pw"><u>비밀번호를 잊어버리셨나요?</u></string>
+    
+    <!-- 프로필 관리 -->
+    <string name="manage_profile">프로필 관리</string>
+    <string name="interview">하이힐스토리</string>
+    
+    <string name="nickname">닉네임</string>
+    <string name="address">사는곳</string>
+    <string name="greeting">인사말</string>
+    <string name="moto">육아좌우명</string>
+    <string name="my_point">마이포인트</string>
+
+    <string name="description_profile_img">프로필이미지</string>
+    
+    <!-- 상세화면 -->
+  <string name="detail_title_1">하이힐스토리</string>
+    <string name="detail_title_2">고무장갑스토리</string>
+    <string name="detail_title_3">아리를부탁해</string>
+    <string name="detail_title_4">즐거운육아</string>
+    <string name="detail_title_6">공지사항</string>
+    
+    <!-- 마이 스크랩 -->
+    <string name="my_scrap">마이스크랩</string>
+    <string name="insert_reply">댓글을 달아보세요.</string>
+    <color name="background">#ECEAED</color>
+    <color name="title_black">#212121</color>
+    <color name="title_white">#fff</color>
+    
+    <string-array name="select_delete">
+        <item >선택</item>
+        <item >삭제</item>
+    </string-array>
+    
+    <string-array name="select_scrap">
+        <item >스크랩</item>
+    </string-array>
+    
+    <string-array name="select_options">
+        <item >수정</item>
+        <item >삭제</item>
+    </string-array>
+    
+     <!-- 공통 메세지 -->
+    <string name="alert_title">확인</string>
+    <string name="msg_deleted">삭제되었습니다.</string>
+    <string name="msg_modified">수정되었습니다.</string>
+    <string name="msg_inserted">등록되었습니다.</string>
+     <color name="black_bar">#222222</color>
+    <!-- URL - Base -->
+    <!-- <string name="url_base">http://211.209.211.122:80/</string> -->
+    <!-- <string name="url_base">http://211.209.211.59:80/</string> -->
+    <string name="url_base">http://brainyx711.iptime.org:6387/</string>
+    <!-- <string name="url_base">http://192.168.0.10:80/</string> -->
+    <!-- URL - Home -->
+    <string name="url_home">homeContent</string>
+    <!-- URL - 프로필 조회 -->
+    <string name="url_profile">profileContent</string>
+    <!-- URL - 프로필 업데이트 -->
+    <string name="url_profileUpdate">updateProfile</string>
+    <!-- URL - 프로필 이미지 업데이트 -->
+    <string name="url_profileImageUpdate">updateProfileImage</string>
+    <!-- URL - 상세보기 -->
+    <string name="url_detail">detailContent</string>
+    <!-- 기타 타입별 목록조회-->
+    <string name="url_contents">getContents</string>
+    <!-- 댓글조회-->
+    <string name="url_reply">replyList</string>
+    <!-- 댓글등록-->
+    <string name="url_replyinsert">replyInsert</string>
+    <!-- 하트등록-->
+    <string name="url_heartInsert">heartInsert</string>
+    <!-- 마이스크랩-->
+    <string name="url_myscrab">myScrab</string>
+    <!-- 마이스크랩-->
+    <!-- <string name="url_myscrabDelete">myScrabDelete</string> -->
+    <string name="url_myscrabDelete">deleteMyScrab</string>
+    
+    <!-- 이미지조회-->
+    <string name="url_img_down">down/</string>
+</resources>

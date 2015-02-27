@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/popMintButton_Selector">
+
+    <!-- Non Focused states -->
+    <item android:drawable="@color/title_white" android:state_focused="false" android:state_pressed="false" android:state_selected="false"/>
+
+    <!-- Pressed -->
+    <item android:drawable="@color/abs__background_holo_light" android:state_pressed="true"/>
+
+</selector>

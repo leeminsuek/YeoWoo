@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dddddd"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_bar_black" >
+
+        <ImageView
+            android:id="@+id/btnTitleBack"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:adjustViewBounds="false"
+            android:scaleType="fitStart"
+            android:src="@drawable/selector_ico_title_back" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="글쓰기"
+            android:textColor="#e9e6eb"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btnTitleOk"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:adjustViewBounds="false"
+            android:scaleType="fitStart"
+            android:src="@drawable/title_ok" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_top_title_pp" >
+
+        <ImageView
+            android:id="@+id/btnLink"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:adjustViewBounds="false"
+            android:scaleType="fitStart"
+            android:src="@drawable/selector_ico_write_link" />
+
+        <ImageView
+            android:id="@+id/btnVideo"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/btnLink"
+            android:adjustViewBounds="false"
+            android:scaleType="fitStart"
+            android:src="@drawable/selector_ico_write_video" />
+
+        <ImageView
+            android:id="@+id/btnCamera"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/btnVideo"
+            android:adjustViewBounds="false"
+            android:scaleType="fitStart"
+            android:src="@drawable/selector_ico_write_camera" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <com.foxrainbxm.jjlim.libary.CustomEditText
+            android:id="@+id/inputTtile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="제목"
+            android:singleLine="true" />
+
+        <com.foxrainbxm.jjlim.libary.CustomEditText
+            android:id="@+id/inputContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="내용을 입력해주세요."
+            android:inputType="textMultiLine"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <View
+        style="@style/VerticalDivider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/thumbnailContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/thumbnail"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="false"
+                android:scaleType="fitStart"
+                android:src="@drawable/btn_add" />
+
+            <ImageView
+                android:id="@+id/btnAddDel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="false"
+                android:scaleType="fitStart"
+                android:src="@drawable/btn_add_del" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

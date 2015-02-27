@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eceaed"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_top_title_pp" >
+
+        <FrameLayout
+               android:layout_width="40dip"
+                android:layout_height="45dip"
+                android:layout_centerVertical="true"
+            android:background="@drawable/profile_title" >
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:background="@drawable/profile_title_n"
+                android:onClick="profileView"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:background="@drawable/profile_title" />
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/title_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/title_set"
+            android:onClick="settingView" />
+
+        <Button
+            android:id="@+id/title_scrap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/title_set"
+            android:background="@drawable/title_scrap"
+            android:onClick="myScrab" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/logo_title" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black_bar"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" >
+
+        <Button
+            android:id="@+id/title_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/title_back" />
+
+        <TextView
+            style="@style/black_bar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/manage_profile" />
+
+        <Button
+            android:id="@+id/title_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:background="@drawable/title_ok" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp" >
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="115dip"
+                android:layout_height="115dip"
+                android:layout_margin="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_profile_round_n" />
+
+            <ImageView
+                android:layout_width="115dip"
+                android:layout_height="115dip"
+                android:layout_margin="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_profile_round" />
+        </FrameLayout>
+
+        <!-- 닉네임 -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_profile"
+            android:gravity="center_vertical"
+            android:padding="8dp" >
+
+            <TextView
+                style="@style/input_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nickname" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp" />
+
+            <EditText
+                android:id="@+id/nickname"
+                style="@style/input_single"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/nickname"
+                android:maxLength="12" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp" />
+
+            <TextView
+                android:id="@+id/nickname_cnt"
+                style="@style/content_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1/3" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp" />
+        <!-- 사는곳 -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_profile"
+            android:gravity="center_vertical"
+            android:padding="8dp" >
+
+            <TextView
+                style="@style/input_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp" />
+
+            <EditText
+                android:id="@+id/address"
+                style="@style/input_single"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/address"
+                android:maxLength="10" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp" />
+
+            <TextView
+                android:id="@+id/address_cnt"
+                style="@style/content_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1/3" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_profile"
+            android:gravity="center_vertical"
+            android:padding="8dp" >
+
+            <TextView
+                style="@style/input_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/greeting" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp" />
+
+            <EditText
+                android:id="@+id/greeting"
+                style="@style/input_single"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/greeting"
+                android:maxLength="42" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp" />
+
+            <TextView
+                android:id="@+id/greeting_cnt"
+                style="@style/content_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1/3" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_profile"
+            android:gravity="center_vertical"
+            android:padding="8dp" >
+
+            <TextView
+                style="@style/input_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/moto" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp" />
+
+            <EditText
+                android:id="@+id/moto"
+                style="@style/input_single"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/moto"
+                android:maxLength="44" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp" />
+
+            <TextView
+                android:id="@+id/moto_cnt"
+                style="@style/content_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1/3" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_profile"
+            android:gravity="center_vertical"
+            android:padding="8dp" >
+
+            <TextView
+                style="@style/input_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/my_point" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp" />
+
+            <TextView
+                android:id="@+id/my_point"
+                style="@style/input_label"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/my_point" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

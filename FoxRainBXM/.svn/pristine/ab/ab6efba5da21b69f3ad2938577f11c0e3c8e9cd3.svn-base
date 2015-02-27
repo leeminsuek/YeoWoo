@@ -1,0 +1,136 @@
+package com.foxrainbxm;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.media.RingtoneManager;
+
+import com.foxrainbxm.skmin.base.DBManager;
+import com.foxrainbxm.skmin.base.SplashActivity;
+
+public class PushProc {
+
+	public void onReceivePushMsg(Context context, String title,String type,String postno, String contents){
+		try {
+//			Intent intent = null;
+			Intent splIntent = new Intent(context, SplashActivity.class);
+			splIntent.putExtra("yn", true);
+			splIntent.putExtra("postNo", Integer.parseInt(postno));
+			splIntent.putExtra("viewtype", type);
+			splIntent.putExtra("contents", contents);
+			splIntent.putExtra("title", title);
+			splIntent.putExtra("time",  System.currentTimeMillis());
+			
+//			if(type.equals("4")) {
+////				int postNo = data.getPostNo();
+//				intent = new Intent(context,Scenario5_S00117.class);
+//				intent.putExtra("postno", Integer.parseInt(postno));
+////				startActivity(intent);
+//				
+//			}
+////			else if( type.equals("6")){
+////				
+////			}
+////			else if( type.equals("5")) {
+////				
+////			}
+//			else {
+//				intent = new Intent(context,ContentDetailView.class);
+//				intent.putExtra("postNo", Integer.parseInt(postno));
+//				intent.putExtra("viewtype", type);
+//			}
+			
+//			Intent intent = new Intent(context, NotiResultActivity.class); 
+			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, splIntent, PendingIntent.FLAG_UPDATE_CURRENT); 
+			Notification.Builder builder = new Notification.Builder(context); 
+			builder.setSmallIcon(R.drawable.ic_launcher); 
+			builder.setTicker("새로운 " + getTypeTitle(type) + " 글이 등록되었습니다."); 
+			builder.setWhen(System.currentTimeMillis()); 
+			builder.setNumber(1); 
+			builder.setContentTitle(title); 
+			builder.setContentText("새로운 " + getTypeTitle(type) + " 글이 등록되었습니다."); 
+			builder.setContentIntent(pendingIntent); 
+			builder.setAutoCancel(true); 
+			builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+			builder.setDefaults(Notification.DEFAULT_VIBRATE);
+			//Notification notification = builder.build();//required API level 16 
+			Notification notification = builder.getNotification(); 
+			int notiId = 1; 
+			NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE); 
+			mNotificationManager.notify(notiId, notification);
+//			Intent intent = null;
+//			if(type.equals("4")) {
+////				int postNo = data.getPostNo();
+//				intent = new Intent(context,Scenario5_S00117.class);
+//				intent.putExtra("postno", Integer.parseInt(postno));
+////				startActivity(intent);
+//				
+//			}
+//			else if( type.equals("6")){
+//				
+//			}
+//			else if( type.equals("5")) {
+//				
+//			}
+//			else {
+////				int postNo = data.getPostNo();
+//				intent = new Intent(context,ContentDetailView.class);
+//				intent.putExtra("postNo", Integer.parseInt(postno));
+//				intent.putExtra("viewtype", type);
+////				Intent intent = new Intent(Setting00119.this, ContentDetailView.class);
+////				intent.putExtra("postNo", postNo);
+////				intent.putExtra("viewtype", type);
+////				startActivity(intent);
+//			}
+//			PendingIntent pendingIntent = PendingIntent.getActivity(context, 
+//					0, intent, PendingIntent.FLAG_ONE_SHOT);
+//			NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+//			
+////			 When the loop is finished, updates the notification
+////			 setContentText - 현재 Notification의 제목을 작성
+//			builder.setContentText(title)
+//			                // Notification이 표시되면서 화면에 잠시 노출되는 내용.
+//					.setTicker( "새로운 " + getTypeTitle(type) + " 글이 등록되었습니다.")
+//					.setProgress(0, 0, false) // Removes the progress bar
+//			                // Notification을 누를 경우 자동으로 닫히도록 처리(여기서 Action을 눌렀을때는 닫히지 않습니다.)
+//					.setAutoCancel(true)
+//					.setSmallIcon(R.drawable.ic_launcher)
+//			                // Notification을 눌렀을 경우 처리되는 Intent
+//					.setContentIntent(pendingIntent);
+////			                // BitPictureStyle을 적용하는 코드
+////					.setStyle(new NotificationCompat.BigPictureStyle()
+////			                           // bigPicture의 이미지 파일은 Bitmap으로 처리되어야 합니다.
+////			                           .bigPicture(photo)
+////			                           // 화면이 펼쳐진 상태에서 보여질 아이콘을 Bitmap으로 처리해줍니다.
+////			                           .bigLargeIcon(BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_menu_gallery))
+////			                 // 하단의 공유 버튼
+////			                 .addAction(android.R.drawable.ic_menu_share, getResources().getString(R.string.share), sendPendingIntent);
+////					
+					
+//			NotificationBuilder builder = new NotificationBuilder(context);
+//			builder.ShowNotificationTextBuilder(R.drawable.ic_launcher, title, "새로운 " + getTypeTitle(type) + " 글이 등록되었습니다.",SplashActivity.class, true);
+			DBManager db = DBManager.getDBManager(context);
+			db.insertNotification(Integer.valueOf(postno), Integer.valueOf(type), contents, System.currentTimeMillis(), contents);
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	}
+	
+	public String getTypeTitle(String type){
+		if(type.equals("2")){
+			return "하이힐스토리";
+		}else if(type.equals("3")){
+			return "고무장갑스토리";
+		}else if(type.equals("4")){
+			return "아이를부탁해";
+		}else if(type.equals("5")){
+			return "즐거운육아";
+		}else if(type.equals("6")) {
+			return "공지사항";
+		}
+		
+		return "";
+	}
+}

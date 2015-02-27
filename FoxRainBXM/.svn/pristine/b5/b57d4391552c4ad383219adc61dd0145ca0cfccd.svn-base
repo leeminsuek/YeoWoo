@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff" >
+
+        <ImageView
+            android:id="@+id/thumnail"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/bucket_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:textColor="#000"
+            android:layout_toRightOf="@id/thumnail"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/album_arrow" />
+
+        <TextView
+            android:textColor="#000"
+            android:id="@+id/bucket_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:layout_toLeftOf="@id/arrow" />
+    </RelativeLayout>
+
+</LinearLayout>

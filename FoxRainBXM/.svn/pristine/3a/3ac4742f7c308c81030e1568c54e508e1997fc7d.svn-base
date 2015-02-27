@@ -1,0 +1,117 @@
+package com.foxrainbxm.util;
+
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.foxrainbxm.Common;
+import com.foxrainbxm.FoxRainBXM;
+import com.foxrainbxm.R;
+import com.foxrainbxm.WriteFileLog;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+public class ViewPagerThumbnail extends PagerAdapter{
+	private LayoutInflater mInflater;
+	View pager = null;
+	FoxRainBXM myapp;
+    public ViewPagerThumbnail(Context c, View pager){
+        super();
+        try {
+        	mInflater = LayoutInflater.from(c);
+        	this.pager = pager;
+        	myapp = (FoxRainBXM)c.getApplicationContext();
+        	
+		} catch (Exception e) {
+			// TODO: handle exception
+			WriteFileLog.writeException(e);
+		}
+           
+        //ChannelLoader.getInstance()
+    }
+
+	/*ListviewPagerItem lpItem = null;	
+	public void setLpItem(ListviewPagerItem lpItem ) {
+		this.lpItem  = lpItem;
+	}*/
+    ArrayList<String> lpItem = null;
+	public void setLpItem(ArrayList<String> lpItem ) {
+		this.lpItem  = lpItem;
+	}
+	
+	public ArrayList<String> getLpItem() {
+		return lpItem;
+	}
+	
+    @Override
+    public int getCount() {  
+    	 
+    	int result = 0; //mImageIds.length;    	    	
+    	try {    	
+    		if ( lpItem != null) {
+//    			result = lpItem.getImages().size();
+    			result = lpItem.size();
+    		}    		    	
+		} catch (Exception e) {
+			// TODO: handle exception
+			WriteFileLog.writeException(e);
+		}
+        return result;
+       
+    	//return 5;
+    }
+    
+    @Override
+    public Object instantiateItem(View pager, int position) {
+        View v = null;
+        try {
+	        if ( lpItem != null) {
+	           
+	        	v =mInflater.inflate(R.layout.fragment_imageview, null);
+	    		ImageView imageViewPic = (ImageView)v.findViewById(R.id.imageViewPic);	
+	    		//imageViewPic.setImageResource(mImageIds[position]);
+	    		//ArrayList<FileListItem> images = lpItem.getImages();			
+				//if(images.size() > 0 && position < images.size()) {													
+	    		if(lpItem.size() > 0 && position < lpItem.size()) {
+					/*String url = Constans.URL_DOMAIN + "data_group/" + lpItem.get(position);*/
+	    			String url = Common.ImageUrl + lpItem.get(position);
+					ImageLoader.getInstance().displayImage(url, imageViewPic, myapp.options);
+					imageViewPic.setVisibility(View.VISIBLE);	
+					v.setVisibility(View.VISIBLE);
+				} else {
+					//imageViewPic.setVisibility(View.GONE);
+					v.setVisibility(View.GONE);
+				}
+							
+				((ViewPager)pager).addView(v, 0);
+	        }
+        } catch (Exception e) {
+        	Log.e("", e.getMessage());
+		}
+        return v; 
+    }
+    
+	
+    @Override
+    public void destroyItem(View pager, int position, Object view) {    
+        ((ViewPager)pager).removeView((View)view);
+    }
+     
+    @Override
+    public boolean isViewFromObject(View pager, Object obj) {
+        return pager == obj; 
+    }
+
+    @Override public void restoreState(Parcelable arg0, ClassLoader arg1) {}
+    @Override public Parcelable saveState() { return null; }
+    @Override public void startUpdate(View arg0) {}
+    @Override public void finishUpdate(View arg0) {}
+
+}
+

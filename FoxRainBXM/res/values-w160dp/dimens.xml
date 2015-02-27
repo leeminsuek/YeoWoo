@@ -1,0 +1,4 @@
+<resources
+      xmlns:android="http://schemas.android.com/apk/res/android">
+    <dimen name="f_size">40px</dimen>
+</resources>

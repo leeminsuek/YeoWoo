@@ -1,0 +1,276 @@
+package com.foxrainbxm.skmin.setting;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.brainyxlib.Dataparsing;
+import com.foxrainbxm.Common;
+import com.foxrainbxm.R;
+import com.foxrainbxm.WriteFileLog;
+import com.foxrainbxm.base.BaseActivity;
+import com.foxrainbxm.base.ResizeImageView;
+import com.foxrainbxm.skmin.base.Popup1Button;
+import com.foxrainbxm.tab5.Scenario5_S00117;
+import com.foxrainbxm.util.RecycleUtils;
+import com.foxrainbxm.util.Request;
+
+/**
+ * 2014. 10. 5.
+ * MinKhun
+ *
+ * Setting01116
+ */
+public class Setting01116 extends BaseActivity {
+	String contents;
+	String title;
+	String time;
+	ArrayList<String>filename = new ArrayList<String>();
+	ImageView playbtn;
+	LinearLayout imglayout;
+	RelativeLayout imgview;
+	TextView txtTitle;
+	TextView txtTime;
+	LinearLayout linearLayout_loading;
+	@Override
+	protected void onDestroy() {
+		try {
+			 System.gc();
+			 RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		super.onDestroy();
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.setting01116);
+		View backbutton = findViewById(R.id.btnTitleBack);
+		backbutton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		
+//		String title = getIntent().getStringExtra("title");
+//		String time = getIntent().getStringExtra("time");
+//		String contents = getIntent().getStringExtra("contents");
+		int seq = getIntent().getIntExtra("seq", -1);
+		linearLayout_loading = (LinearLayout) findViewById(R.id.linearLayout_loading);
+		txtTitle = (TextView) findViewById(R.id.txtTitle);
+//		txtTitle.setText(contents);
+		txtTime = (TextView) findViewById(R.id.txtTime);
+//		txtTime.setText(time);
+		
+		playbtn = (ImageView)findViewById(R.id.playbtn);
+		playbtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				try {
+					String path = (String) v.getTag();
+					Uri uri = Uri.parse(path);
+					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//					if(path.startsWith("http://youtu.")) {
+//						intent.setPackage("com.google.android.youtube");
+//					}
+				
+					startActivity(intent);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+			}
+		});
+		imglayout = (LinearLayout)findViewById(R.id.imglayout);
+		imgview = (RelativeLayout)findViewById(R.id.imgv);
+//		setImage(contents);
+		getPushList(seq);
+	}
+	
+	public void getPushList(final int seq){
+		AsyncTask<Void, Void, Void> getDataWorker = new AsyncTask<Void, Void, Void>() {
+			JSONObject rgb = null;
+			boolean flag = false;
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+				try {
+					//arraylist.clear();
+					linearLayout_loading.setVisibility(View.VISIBLE);
+				} catch (Exception e) {
+					WriteFileLog.writeException(e);
+				}
+			}
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				try {
+					List<NameValuePair> dataList = new ArrayList<NameValuePair>();
+					dataList.add(new BasicNameValuePair("postNo",String.valueOf( seq)));
+					rgb = Request.requestService(Setting01116.this,Common.NOTICEDETAIL, dataList);
+				} catch (Exception e) {
+					WriteFileLog.writeException(e);
+
+				}			
+				return null;
+			}
+			@Override
+			protected void onPostExecute(Void result) {
+				try {	
+					if(rgb != null ) {
+						Log.d("RGB", rgb.toString());
+						String resultflag = rgb.getString("result");
+						JSONObject item = rgb.getJSONObject("data");
+							time = item.getString("postTime");
+							title = item.getString("title");
+							contents = item.getString("contents");
+							flag = true;
+					}
+					else {
+						flag = false;
+					}
+				} catch (Exception e) {
+					WriteFileLog.writeException(e);
+				} finally {
+					Handler mHandler = new Handler();
+
+					mHandler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							//refreshLayout.setRefreshing(false);
+							//adapter.notifyDataSetChanged();
+							if(flag == false) {
+								linearLayout_loading.setVisibility(View.GONE);
+								new Popup1Button(Setting01116.this, "삭제된 게시글입니다.", new android.content.DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										linearLayout_loading.setVisibility(View.GONE);
+										finish();
+
+									}
+								})
+								.show();
+							}
+							else {
+								txtTitle.setText(title);
+								String temp = "";
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.KOREA);
+								sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+							    Date now = new Date();
+							    Date from = null;
+								try {
+									from = sdf.parse(time);
+								} catch (ParseException e) {
+									WriteFileLog.writeException(e);
+								}
+							    long difference = (now.getTime() - from.getTime()) / 1000;
+
+							    if ( difference < 60) {
+							    	temp = difference + "초 전";
+							    } else if ( difference < 3600) {
+							    	int min = (int) (difference / 60);
+							    	temp = min + "분 전";
+							    } else if ( difference < 86400) {
+							    	int hour = (int) (difference / 3600);
+							    	temp = hour + "시간 전";
+							    } else {
+							    	temp = time.substring(0, 10);
+							    }
+							    
+								txtTime.setText(temp);
+								setImage(contents);
+								
+								linearLayout_loading.setVisibility(View.GONE);
+							}
+						}
+
+					}, 1000);
+				}				
+				super.onPostExecute(result);		
+			}		
+		};
+		getDataWorker.execute();
+	}
+
+	public void setImage(String contents){
+		try {
+			Dataparsing paring = new Dataparsing();
+			paring.setOnDataCall(new Dataparsing.SetDataCall() {
+				@Override
+				public void onSetDataCall(int arg0, String arg1, String arg2) {
+					if(arg0 == 1){
+						TextView txtContents = (TextView) findViewById(R.id.txtContents);
+						txtContents.setText(arg1);
+					}else if(arg0 ==2){
+						filename.add(arg1);
+						playbtn.setVisibility(View.GONE);
+						imglayout.setVisibility(View.VISIBLE);
+						imgview.setVisibility(View.VISIBLE);
+					}else if(arg0 == 3){
+						filename.add(arg2);
+						playbtn.setVisibility(View.VISIBLE);
+						playbtn.setTag(arg1);
+						imglayout.setVisibility(View.VISIBLE);
+						imgview.setVisibility(View.VISIBLE);
+					}
+				}
+			});
+			
+			paring.DataParsing(contents);
+			SetView();
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		
+	}
+	
+	public void SetView(){
+		try {
+				imglayout.removeAllViews();
+				for(int i = 0;i<filename.size();i++){
+					RelativeLayout hederimg =  (RelativeLayout)getLayoutInflater().inflate(R.layout.s00117_header_img, null); //
+					ResizeImageView imgview = (ResizeImageView)hederimg.findViewById(R.id.imageview);
+					if(filename.get(i).startsWith("http:")) {
+						myApp.imageloder.displayImage(filename.get(i), imgview, myApp.options);
+					}
+					else {
+						myApp.imageloder.displayImage(Common.ImageUrl + filename.get(i), imgview, myApp.options);
+					}
+					
+					imglayout.addView(hederimg);
+				}
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+	}
+}

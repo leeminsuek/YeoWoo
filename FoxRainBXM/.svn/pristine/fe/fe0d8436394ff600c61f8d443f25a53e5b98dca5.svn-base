@@ -1,0 +1,34 @@
+package com.foxrainbxm;
+
+import com.brainyxlib.NotificationBuilder;
+import com.foxrainbxm.skmin.base.DBManager;
+import com.foxrainbxm.skmin.base.SplashActivity;
+
+import android.content.Context;
+
+public class PushProc {
+
+	public void onReceivePushMsg(Context context, String title,String type,String postno){
+		try {
+			NotificationBuilder builder = new NotificationBuilder(context);
+			builder.ShowNotificationTextBuilder(R.drawable.ic_launcher, title, "새로운 " + getTypeTitle(type) + " 글이 등록되었습니다.",SplashActivity.class, true);
+			DBManager db = DBManager.getDBManager(context);
+			db.insertNotification(Integer.valueOf(postno), Integer.valueOf(type), title, System.currentTimeMillis());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String getTypeTitle(String type){
+		if(type.equals("2")){
+			return "오픈컨텐츠";
+		}else if(type.equals("3")){
+			return "관련뉴스";
+		}else if(type.equals("4")){
+			return "나만의꿀팁";
+		}else if(type.equals("6")){
+			return "공지사항";
+		}
+		return "";
+	}
+}

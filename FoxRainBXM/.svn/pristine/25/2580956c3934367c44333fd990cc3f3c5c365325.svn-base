@@ -1,0 +1,111 @@
+package com.foxrainbxm.skmin.base;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
+ 
+public class DBManager {
+ 
+    private static final String DB_NAME = "foxrain.db";
+    private static final String TABLE_NAME = "notification";
+    public static final int dbVersion = 1;
+ 
+    private static OpenHelper opener;
+    private static SQLiteDatabase db;
+    private static DBManager manager;
+    
+    public static DBManager getDBManager(Context context) {
+    	if(manager == null){
+    		manager = new DBManager(context);
+    	}
+    	return manager;
+    }
+    
+    DBManager(Context context) {
+    	opener = new OpenHelper(context, DB_NAME, null, dbVersion);
+        db = opener.getWritableDatabase();
+	}
+ 
+    private class OpenHelper extends SQLiteOpenHelper {
+    	
+        public OpenHelper(Context context, String name, CursorFactory factory, int version) {
+            super(context, name, null, version);
+        }
+ 
+        @Override
+        public void onCreate(SQLiteDatabase arg0) {
+            String createSql = String.format("create table %s (_id integer primary key autoincrement, postNo integer, type integer, title text, date long, read integer);", TABLE_NAME);
+            arg0.execSQL(createSql);
+        }
+ 
+        @Override
+        public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
+        }
+    }
+ 
+    public int countOfNotifications(){
+    	String sql = "select count(*) from " + TABLE_NAME + ";";
+        Cursor results = db.rawQuery(sql, null);
+
+        int cnt = 0;
+        if(results.moveToFirst())
+        	cnt = results.getInt(0);
+        results.close();
+        return cnt;
+    }
+    
+    public int countOfUnReadNotifications(){
+    	String sql = "select count(*) from " + TABLE_NAME + " WHERE read = 0 ;";
+        Cursor results = db.rawQuery(sql, null);
+
+        int cnt = 0;
+        if(results.moveToFirst())
+        	cnt = results.getInt(0);
+        results.close();
+        return cnt;
+    }
+    
+    public void insertNotification(int postNo, int type, String title, long date) {
+        String sql = String.format("insert into %s(postNo, type, title, date, read) values(%d, %d, '%s',%d, 0);", TABLE_NAME, postNo, type, title, date);
+        db.execSQL(sql);
+    }
+ 
+    public void updateReadNotification(int id) {
+        String sql = String.format("update %s set read = 1 where _id = %d;", TABLE_NAME, id);
+        db.execSQL(sql);
+    }
+ 
+    public void removeNotificationBefore(long date) {
+        String sql = String.format("delete from %s where date < %d;", TABLE_NAME, date);
+        db.execSQL(sql);
+    }
+ 
+    public List<NoticeData> selectData() {
+        String sql = String.format("select * from %s order by _id desc;", TABLE_NAME);
+        Cursor result = db.rawQuery(sql, null);
+ 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        ArrayList<NoticeData> data = new ArrayList<NoticeData>();
+        result.moveToFirst();
+        while (!result.isAfterLast()) {
+        	NoticeData noti = new NoticeData();
+        	noti.set_id(result.getInt(result.getColumnIndex("_id")));
+        	noti.setPostNo(result.getInt(result.getColumnIndex("postNo")));
+        	noti.setType(result.getInt(result.getColumnIndex("type")));
+        	noti.setTitle(result.getString(result.getColumnIndex("title")));
+        	noti.setPostTime(sdf.format(new Date(result.getLong(result.getColumnIndex("date")))));
+        	noti.setRead(result.getInt(result.getColumnIndex("read"))==1);
+        	data.add(noti);
+        	result.moveToNext();
+        }
+        result.close();
+        return data;
+    }
+}

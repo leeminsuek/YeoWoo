@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string-array name="qs_11">
+        <item>선택</item>
+        <item>삭제</item>
+    </string-array>
+    
+    <string-array name="kakaostory_spinner">
+        <item>전체공개</item>
+        <item>친구공개</item>
+    </string-array>
+
+</resources>

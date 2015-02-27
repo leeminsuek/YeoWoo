@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <HorizontalScrollView
+        android:id="@+id/tab_scroller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="0dip"
+        android:scrollbars="none" >
+
+        <RadioGroup
+            android:id="@+id/tab_groups"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/buttonTab1"
+                android:background="@drawable/tab1_selector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:checked="true" />
+
+            <RadioButton
+                android:button="@null"
+                android:id="@+id/buttonTab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab2_selector" />
+
+            <RadioButton
+                android:button="@null"
+                android:id="@+id/buttonTab3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab3_selector" />
+
+            <RadioButton
+                android:button="@null"
+                android:id="@+id/buttonTab4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab4_selector" />
+
+            <RadioButton
+                android:button="@null"
+                android:id="@+id/buttonTab5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab5_selector" />
+
+            <RadioButton
+                android:button="@null"
+                android:id="@+id/buttonTab6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab6_selector" />
+
+            <RadioButton
+                android:button="@null"
+                android:id="@+id/buttonTab7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab7_selector" />
+        </RadioGroup>
+    </HorizontalScrollView>
+
+</LinearLayout>

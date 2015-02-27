@@ -1,0 +1,90 @@
+package com.foxrainbxm.skmin.base;
+
+import java.util.ArrayList;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.foxrainbxm.R;
+
+public class Popup1Button extends Dialog implements android.view.View.OnClickListener{
+	OnClickListener listener;
+	boolean spinnerYN = false;
+	int selectedPosition = 0;
+	
+	public Popup1Button(Context context, String message, OnClickListener l) {
+		super(context);
+		listener = l;
+		
+		spinnerYN = false;
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		setContentView(R.layout.popup1button);
+		
+		TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
+		txtMessage.setText(message);
+		
+		Button btnPopup0 = (Button) findViewById(R.id.btnPopup0);
+		btnPopup0.setOnClickListener(this);
+	}
+	
+	public Popup1Button(Context context, String[] arr, OnClickListener l) {
+		super(context);
+		listener = l;
+		
+		spinnerYN = true;
+		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		setContentView(R.layout.popup1_spinner_button);
+		
+		Spinner spnPopup0 = (Spinner) findViewById(R.id.spinner1);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, arr);
+		spnPopup0.setAdapter(adapter);
+		
+		spnPopup0.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				selectedPosition = position;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+		
+		Button btnPopup0 = (Button) findViewById(R.id.btnPopup0);
+		btnPopup0.setOnClickListener(this);
+	}
+	
+	public void setPopupButton(String text){
+		Button btnPopup0 = (Button) findViewById(R.id.btnPopup0);
+		btnPopup0.setText(text);
+	}
+
+	@Override
+	public void onClick(View v) {
+		if(spinnerYN) {
+			if(listener != null)
+				listener.onClick(this, selectedPosition);
+			dismiss();
+		}
+		else {
+			if(listener != null)
+				listener.onClick(this, 0);
+			
+			dismiss();
+		}
+	}
+}

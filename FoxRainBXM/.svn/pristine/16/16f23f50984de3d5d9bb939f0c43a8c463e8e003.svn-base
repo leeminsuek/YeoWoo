@@ -1,0 +1,79 @@
+package com.foxrainbxm.jjlim.base;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.foxrainbxm.Common;
+import com.foxrainbxm.jjlim.base.HttpContentTask.OnContentTaskResultListener;
+
+public class HttpContentApi {
+	private Context context;
+	
+	public HttpContentApi(Context cx){
+		this.context = cx;
+	}
+	
+	//private static String host = "http://192.168.0.10";
+//	private static String host = "http://183.111.148.117:8080";
+//	public static String imghost = host +"/foxrain/images/";
+//	private static String host = "http://brainyx711.iptime.org:6387/";
+//	public static String imghost = "http://brainyx711.iptime.org:6387/foxrain/images/";
+//	private static String host = "http://brainyx711.iptime.org:6385/";
+//	public static String imghost = "http://brainyx711.iptime.org:6385/foxrain/images/";
+	
+	private static String host = Common.Base+"/";
+	public static String imghost = Common.Base+"/foxrain/images/";
+	//private static String host = "http://jtori.cafe24.com/FoxRain";
+
+	// HOME �� ����
+	public void contentHome(OnContentTaskResultListener result){
+		HttpContentTask task = new HttpContentTask(context, result);
+		task.execute(String.format("%s/content/home", host), "home");
+	}
+	
+	// CATEGORY �� ���� (���������ͺ�)
+	public void contentCategory(int type, int idx, OnContentTaskResultListener result){
+		HttpContentTask task = new HttpContentTask(context, result);
+		task.execute(String.format("%s/content/category", host), "cat", String.valueOf(type), String.valueOf(idx));
+	}
+	
+	// �������� ����
+	public void contentDetail(int postNo, String id, int idx, OnContentTaskResultListener result){
+		HttpContentTask task = new HttpContentTask(context, result);
+		task.execute(String.format("%s/content/detail", host), "det", String.valueOf(postNo), id, String.valueOf(idx));
+		//task.execute(String.format("%s/content/detail?postno=%s&id=%s&idx=%s", host, postNo, id, idx));
+	}
+	
+	// ��Ʈ �߰�, ����
+	public void contentHeart(int oper, int postNo, String id, OnContentTaskResultListener result){
+		HttpContentTask task = new HttpContentTask(context, result);
+		task.execute(String.format("%s/content/heart", host), "heart", String.valueOf(oper), String.valueOf(postNo), id);
+	}
+
+	// ��� �߰�
+	public void contentReply(int postNo, String id, String text, OnContentTaskResultListener result){
+		HttpContentTask task = new HttpContentTask(context, result);
+		task.execute(String.format("%s/content/reply", host), "reply", String.valueOf(postNo), id, text);
+	}
+	
+	// ��ũ�� �߰�
+	public void contentScrap(int postNo, String id, OnContentTaskResultListener result){
+		HttpContentTask task = new HttpContentTask(context, result);
+		task.execute(String.format("%s/content/scrap", host), "scrap", String.valueOf(postNo), id);
+	}
+	
+	/*// IMAGE URL �� ������ִ� �޼ҵ�
+	public static String getContentImageUrl(String path, int scale) {
+		return String.format("%s/content/image?path=%s&scale=%s", host, path, scale);
+	}*/
+
+	// IMAGE URL �� ������ִ� �޼ҵ�
+		public static String getContentImageUrl(String path, int scale) {
+			//return String.format("%s/foxrain/images?path=%s&scale=%s", host, path, scale);
+			return String.format("%s/foxrain/images?path=%s&scale=%s", imghost, path, scale);
+		}
+
+}
+
+
+

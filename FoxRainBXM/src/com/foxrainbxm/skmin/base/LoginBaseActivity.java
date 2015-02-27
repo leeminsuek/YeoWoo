@@ -1,0 +1,266 @@
+package com.foxrainbxm.skmin.base;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+
+import com.brainyxlib.BrUtilManager;
+import com.facebook.Request;
+import com.facebook.Request.GraphUserCallback;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginButton;
+import com.foxrainbxm.R;
+import com.foxrainbxm.base.BaseActivity;
+import com.foxrainbxm.base.FragmentMain;
+import com.foxrainbxm.skmin.base.HttpTask.OnTaskResultListener;
+import com.foxrainbxm.skmin.base.SharedValues.SharedKeys;
+import com.foxrainbxm.skmin.login.Login00004;
+import com.foxrainbxm.util.RecycleUtils;
+
+public class LoginBaseActivity extends BaseActivity {
+
+	String projectID = "150183175516";
+	int postno;
+	String viewtype;
+	com.facebook.widget.LoginButton facebookLogin;
+	private UiLifecycleHelper uiHelper;
+	LinearLayout view;
+	private com.facebook.Session.StatusCallback callback = new com.facebook.Session.StatusCallback() {
+		@Override
+		public void call(com.facebook.Session session, SessionState state, Exception exception) {
+			onSessionStateChange(session, state, exception);
+		}
+	};
+
+	GraphUserCallback userCallback = new GraphUserCallback() {
+		@Override
+		public void onCompleted(GraphUser user, Response response) {
+			if(view != null){
+				view.setVisibility(View.GONE);	
+			}
+
+			if(user != null){
+				String name = user.getName();
+				Object email = user.getProperty("email");
+				if(email == null)
+					email = user.getId();
+				loginOK("F", (String) email, name);
+			}else{
+				if(Login00004.getinstance() ==null){
+					startActivity(new Intent(LoginBaseActivity.this, Login00004.class));	
+				}
+
+			}
+		}
+	};
+
+
+	private void onSessionStateChange(com.facebook.Session session, SessionState state, Exception exception) {
+		if (state.isOpened()) {
+
+		} else if (state.isClosed()) {
+
+		}
+	}
+
+	protected void initFacebook(com.facebook.widget.LoginButton login){
+		if(login == null)
+			facebookLogin = new LoginButton(this);
+		else
+			facebookLogin = login;
+
+		facebookLogin.setBackgroundResource(R.drawable.selector_btn_join_facebook);
+		final List<String> PERMISSIONS = Arrays.asList("publish_actions","email");
+		facebookLogin.setPublishPermissions(PERMISSIONS);
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		uiHelper = new UiLifecycleHelper(this, callback);
+
+		//		if(viewtype.equals("")) {
+		//			startActivity(new Intent(SplashActivity.this, Login00004.class));
+		//			finish();
+		//		}
+		//		else {
+		//			startActivity(new Intent(SplashActivity.this, Login00004.class).putExtra("viewtype", viewtype).putExtra("postNo", postNo));
+		//			finish();
+		//		}
+		//		
+
+		Intent intent = getIntent();
+		postno = intent.getIntExtra("postNo", -1);
+		Log.d("position", postno+"");
+		if(postno != -1) {
+			viewtype = intent.getStringExtra("viewtype");
+		}
+
+		uiHelper.onCreate(savedInstanceState);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		uiHelper.onResume();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		uiHelper.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		uiHelper.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		uiHelper.onDestroy();
+		System.gc();
+		RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		uiHelper.onSaveInstanceState(outState);
+	}
+
+
+
+	private void loginSnsUser(final String loginType, final String id, String name, final OnTaskResultListener l){
+		getApi().joinUser(id, "", loginType, name, SharedValues.getSharedValue(this, SharedKeys.PUSH_KEY), new OnTaskResultListener() {
+			@Override
+			public void onTaskResult(boolean success, Map<String, Object> result, String message) {
+				loginUser(id, "", loginType, l);
+			}
+		});
+	}
+
+	private void loginUser(final String email, final String password, String id_k, final OnTaskResultListener taskResult){
+		getApi().loginUser(email, password, id_k, SharedValues.getSharedValue(this, SharedKeys.PUSH_KEY), new OnTaskResultListener() {
+			@Override
+			public void onTaskResult(boolean success, Map<String, Object> result, String message) {
+				if(taskResult != null){
+					taskResult.onTaskResult(success, result, message);
+				}
+				findViewById(R.id.linearLayout_loading).setVisibility(View.GONE);
+				if (success) {
+					String id = (String)result.get("id");
+					String mypoint = String.valueOf((Integer)result.get("mypoint"));
+					String nickname = (String)result.get("nickname");
+					String name = (String)result.get("name");
+					String profilePhoto = (String)result.get("profilePhoto");
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.EMAIL, email);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.PASSWORD, password);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.EMAIL, email);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.ID, id);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.MYPOINT, mypoint);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.NICKNAME, nickname);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.NAME, name);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.PROFILEPHOTO, profilePhoto);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.NOTI_ALARM, "true");
+					openMainActivity();
+				}
+				else {
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.EMAIL, null);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.PASSWORD, null);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.LOGIN_TYPE, null);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.ID, null);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.MYPOINT, null);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.NICKNAME, null);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.NAME, null);
+					SharedValues.setSharedValue(getBaseContext(), SharedKeys.PROFILEPHOTO, null);
+					
+					BrUtilManager.getInstance().showToast(LoginBaseActivity.this, "페이스북 이메일과 이미 가입된 이메일이 동일한 경우에는 페이스북 회원가입이 불가능합니다.");
+					com.facebook.Session session = com.facebook.Session.getActiveSession();
+				    if (session != null) {
+				        if (!session.isClosed()) {
+				        	session.closeAndClearTokenInformation();
+				        }
+				    }
+//					SharedValues.setSharedValue(getBaseContext(), SharedKeys.EMAIL, email);
+//					SharedValues.setSharedValue(getBaseContext(), SharedKeys.PASSWORD, null);
+//					SharedValues.setSharedValue(getBaseContext(), SharedKeys.LOGIN_TYPE, "F");
+//					SharedValues.setSharedValue(getBaseContext(), SharedKeys.ID, email);
+//					SharedValues.setSharedValue(getBaseContext(), SharedKeys.MYPOINT, null);
+//					SharedValues.setSharedValue(getBaseContext(), SharedKeys.NICKNAME, null);
+//					SharedValues.setSharedValue(getBaseContext(), SharedKeys.NAME, null);
+//					SharedValues.setSharedValue(getBaseContext(), SharedKeys.PROFILEPHOTO, null);
+					
+				}
+			}
+		});
+	}
+
+	private void loginOK(String loginType, String email, String name){
+		SharedValues.setSharedValue(this, SharedKeys.LOGIN_TYPE, loginType);
+		loginSnsUser(loginType, email, name, null);
+	}
+
+	private void openMainActivity(){
+		if(postno != -1) {
+			startActivity(new Intent(this, FragmentMain.class).putExtra("viewtype", viewtype).putExtra("postNo", postno));
+			finish();
+		}
+		else {
+			startActivity(new Intent(this, FragmentMain.class));
+			finish();
+		}
+
+	}
+
+	protected void facebookUserInfo(){
+		Request.newMeRequest(Session.getActiveSession(), userCallback).executeAsync();
+	}
+
+	protected boolean checkType(OnTaskResultListener l,LinearLayout view){
+		this.view = view;
+		view.setVisibility(View.VISIBLE);
+
+		String loginType = SharedValues.getSharedValue(this, SharedKeys.LOGIN_TYPE);
+		//		boolean autoLoginCheck = Boolean.valueOf(SharedValues.getSharedValue(this, SharedKeys.AUTO_LOGIN));
+
+		if("Y".equals(loginType)){
+			//				if(autoLoginCheck == true) {
+			final String email = SharedValues.getSharedValue(this, SharedKeys.EMAIL);
+			final String password = SharedValues.getSharedValue(this, SharedKeys.PASSWORD);
+
+			loginUser(email, password, loginType, l);
+			//				}
+			//				else {
+			//					return false;
+			//				}
+		}
+		else if("F".equals(loginType)) {
+			//				if(autoLoginCheck == true) {
+			facebookUserInfo();			
+			//				}
+			//				else {
+			//					return false;
+			//				}
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="color1">#ff92ff2f</color>
+    <color name="color2">#ffffbc00</color>
+    <color name="color3">#ff12ffa0</color>
+    <color name="color4">#ffff6724</color>
+    
+    <color name="blue">#0099CC</color>
+    <color name="purple">#9933CC</color>
+    <color name="green">#669900</color>
+    <color name="orange">#FF8800</color>
+    
+    <color name="circle_default_color">#ffffff</color>
+    <color name="circle_selected_color">#7b7a7c</color>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/popMintButton_Selector">
+
+    <!-- Non Focused states -->
+    <item android:drawable="@drawable/ico_movie_play" android:state_focused="false" android:state_pressed="false" />
+
+    <!-- Pressed -->
+    <item android:drawable="@drawable/ico_movie_play_dw" android:state_pressed="true"/>
+</selector>

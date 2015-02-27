@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <!-- <ScrollView -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="match_parent" -->
+    <!-- android:background="@color/background" -->
+    <!-- android:orientation="vertical" > -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swype1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/more_button" >
+
+            <ListView
+                android:id="@+id/listView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10dp"
+                android:listSelector="@android:color/transparent"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+            </ListView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/more_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/sub_list_bg"
+            android:clickable="true"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="더보기"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="#AFAFAF"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- <LinearLayout -->
+    <!-- android:id="@+id/sub_list_container" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_marginLeft="8dp" -->
+    <!-- android:layout_marginRight="8dp" -->
+    <!-- android:orientation="vertical" /> -->
+    <!-- </LinearLayout> -->
+
+
+    <!-- </ScrollView> -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/RelativeLayout2"
+        android:background="#66000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="@style/TransDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

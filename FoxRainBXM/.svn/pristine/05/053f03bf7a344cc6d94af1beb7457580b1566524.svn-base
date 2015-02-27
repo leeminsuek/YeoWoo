@@ -1,0 +1,214 @@
+package com.foxrainbxm.skmin.setting;
+
+import java.util.Map;
+
+import android.content.ComponentName;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.TextView;
+
+import com.brainyxlib.BrUtilManager;
+import com.foxrainbxm.R;
+import com.foxrainbxm.WriteFileLog;
+import com.foxrainbxm.base.BaseActivity;
+import com.foxrainbxm.skmin.base.HttpTask.OnTaskResultListener;
+import com.foxrainbxm.skmin.base.Popup2Button;
+import com.foxrainbxm.skmin.base.SharedValues;
+import com.foxrainbxm.skmin.base.SharedValues.SharedKeys;
+import com.foxrainbxm.skmin.login.Login00004;
+import com.foxrainbxm.util.RecycleUtils;
+
+/**
+ * 2014. 10. 5.
+ * MinKhun
+ *
+ * Setting00020
+ * 설정
+ */
+public class Setting00020 extends BaseActivity implements OnClickListener{
+	
+	CheckBox chkAlarm;
+	
+	@Override
+	protected void onDestroy() {
+		try {
+			 System.gc();
+			 RecycleUtils.recursiveRecycle(getWindow().getDecorView());
+		} catch (Exception e) {
+			WriteFileLog.writeException(e);
+		}
+		super.onDestroy();
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.setting00020);
+		View backbutton = findViewById(R.id.btnTitleBack);
+		backbutton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		
+		if(SharedValues.getSharedValue(this, SharedKeys.NOTI_ALARM) == null)
+			SharedValues.setSharedValue(this, SharedKeys.NOTI_ALARM, "true");
+		
+		boolean emailType = "Y".equals(SharedValues.getSharedValue(this, SharedKeys.LOGIN_TYPE));
+		if(!emailType){
+			View v = findViewById(R.id.changePassword);
+			v.setVisibility(View.GONE);
+		}
+		boolean checked = Boolean.valueOf(SharedValues.getSharedValue(this, SharedKeys.NOTI_ALARM));
+		chkAlarm = (CheckBox) findViewById(R.id.checkBox1);
+		chkAlarm.setChecked(checked);
+		TextView txtVersion = (TextView) findViewById(R.id.txtVersion);
+		txtVersion.setText(BrUtilManager.getInstance().GetVersion(this));
+		
+		TextView txtAccount = (TextView) findViewById(R.id.txtAccount);
+		txtAccount.setText(SharedValues.getSharedValue(this, SharedKeys.EMAIL));
+	}
+
+	private void goLogin(){
+		Intent intent = new Intent(getApplicationContext(), Login00004.class);
+		SharedValues.setSharedValue(this, SharedKeys.AUTO_LOGIN, "false");
+		ComponentName cn = intent.getComponent();
+		Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+		startActivity(mainIntent);
+		finish();
+	}
+	
+	public void onSettingClick(View v){
+		int index = Integer.valueOf(v.getTag().toString());
+		switch (index) {
+		case 0://알림
+			chkAlarm.toggle();
+			SharedValues.setSharedValue(this, SharedKeys.NOTI_ALARM, chkAlarm.isChecked()+"");
+			break;
+		case 1://공지사항
+			startActivity(new Intent(this, Setting00120.class));
+			break;
+		case 2://버전정보
+			break;
+		case 3://로그아웃
+		{
+			Popup2Button popup = new Popup2Button(this, "여우비 로그아웃을\n하시겠습니까?", new android.app.Dialog.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					if(arg1 == 0){
+						String type = SharedValues.getSharedValue(getBaseContext(), SharedKeys.LOGIN_TYPE);
+						if("F".equals(type)){
+							com.facebook.Session session = com.facebook.Session.getActiveSession();
+							if (session != null) {
+								if (!session.isClosed()) {
+									session.closeAndClearTokenInformation();
+									goLogin();
+								}
+							}
+						}
+						else {
+							goLogin();
+						}
+						
+						SharedValues.setSharedValue(getBaseContext(), SharedKeys.EMAIL, null);
+						SharedValues.setSharedValue(getBaseContext(), SharedKeys.PASSWORD, null);
+						SharedValues.setSharedValue(getBaseContext(), SharedKeys.LOGIN_TYPE, null);
+					}
+				}
+			});
+			popup.setPopupButton(0, "네");
+			popup.setPopupButton(1, "아니오");
+			popup.show();
+		}
+			break;
+		case 4://회원탈퇴
+		{
+			Popup2Button popup = new Popup2Button(this, "등록하셨던 게시물들이 모두 삭제됩니다.\n그래도 회원탈퇴를 하시겠습니까?", new android.app.Dialog.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if(which == 0){
+						getApi().userWithdraw(SharedValues.getSharedValue(getBaseContext(), SharedKeys.EMAIL),SharedValues.getSharedValue(getBaseContext(), SharedKeys.PASSWORD),new OnTaskResultListener() {
+							@Override
+							public void onTaskResult(boolean success, Map<String, Object> result, String message) {
+								if (success) {
+									String type = SharedValues.getSharedValue(getBaseContext(), SharedKeys.LOGIN_TYPE);
+									if("F".equals(type)){
+										com.facebook.Session session = com.facebook.Session.getActiveSession();
+									    if (session != null) {
+									        if (!session.isClosed()) {
+									        	session.closeAndClearTokenInformation();
+									        	goLogin();
+									        }
+									    }
+									}
+									else {
+										SharedValues.setSharedValue(getBaseContext(), SharedKeys.AUTO_LOGIN, "false");
+										SharedValues.setSharedValue(getBaseContext(), SharedKeys.EMAIL, null);
+										SharedValues.setSharedValue(getBaseContext(), SharedKeys.PASSWORD, null);
+										SharedValues.setSharedValue(getBaseContext(), SharedKeys.LOGIN_TYPE, null);
+										
+										goLogin();
+									}
+								}
+//								else {
+//									
+//									String type = SharedValues.getSharedValue(getBaseContext(), SharedKeys.LOGIN_TYPE);
+//									if("F".equals(type)){
+//										com.facebook.Session session = com.facebook.Session.getActiveSession();
+//									    if (session != null) {
+//									        if (!session.isClosed()) {
+//									        	session.closeAndClearTokenInformation();
+//									        	goLogin();
+//									        }
+//									    }
+//									}
+//									
+//									SharedValues.setSharedValue(getBaseContext(), SharedKeys.AUTO_LOGIN, "false");
+//									SharedValues.setSharedValue(getBaseContext(), SharedKeys.EMAIL, null);
+//									SharedValues.setSharedValue(getBaseContext(), SharedKeys.PASSWORD, null);
+//									SharedValues.setSharedValue(getBaseContext(), SharedKeys.LOGIN_TYPE, null);
+//									
+//									goLogin();
+//								}
+							}
+						});
+					}
+				}
+			});
+			popup.setPopupButton(0, "네");
+			popup.setPopupButton(1, "아니오");
+			popup.show();
+		}
+			break;
+		case 5://내계정
+			break;
+		case 6://비밀번호 변경
+			startActivity(new Intent(this, Setting00023.class));
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btn_join_clause:
+			break;
+		case R.id.btn_join_information:
+			break;
+
+		default:
+			break;
+		}
+	}
+}

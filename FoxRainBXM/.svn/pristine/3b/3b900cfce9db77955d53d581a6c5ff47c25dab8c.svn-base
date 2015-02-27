@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/popMintButton_Selector">
+
+    <!-- Non Focused states -->
+    <item android:drawable="@drawable/btn_list_reply_rgst" android:state_pressed="false"/>
+
+    <!-- Checked -->
+    <item android:drawable="@drawable/btn_list_reply_rgst_dw" android:state_pressed="true"/>
+
+</selector>

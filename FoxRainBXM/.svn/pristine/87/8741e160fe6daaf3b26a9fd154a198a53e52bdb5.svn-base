@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/topLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background" >
+
+        <LinearLayout
+            android:id="@+id/contentLeft"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/sub_top_liist_bg"
+            android:orientation="vertical"
+            android:padding="16dp" >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dip"
+                android:layout_weight="1"
+                android:maxHeight="100dip"
+                android:padding="3dp" >
+
+                <ImageView
+                    android:id="@+id/iv_interview_t_l"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/tv_interview_t_t"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLines="5"
+                    android:padding="10dip"
+                    android:textSize="17sp"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_interview_t_l"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:minLines="2"
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/heart_t_l"
+                    style="@style/content_icos"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ico_list_heart"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/reply_t_l"
+                    style="@style/content_icos"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ico_list_reply"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/scrap_t_l"
+                    style="@style/content_icos"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ico_list_scrap"
+                    android:text="0" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/contentRight"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/sub_top_liist_bg"
+            android:orientation="vertical"
+            android:padding="16dp" >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dip"
+                android:layout_weight="1"
+                android:maxHeight="100dip"
+                android:padding="3dp" >
+
+                <ImageView
+                    android:id="@+id/iv_interview_t_r"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/tv_interview_r_t"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxLines="5"
+                    android:padding="10dip"
+                    android:textSize="17sp"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_interview_t_r"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:minLines="2"
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/heart_t_r"
+                    style="@style/content_icos"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ico_list_heart"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/reply_t_r"
+                    style="@style/content_icos"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ico_list_reply"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/scrap_t_r"
+                    style="@style/content_icos"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ico_list_scrap"
+                    android:text="0" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

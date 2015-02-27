@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_detail" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/title_black"
+        android:padding="1dp" >
+
+        <Button
+            android:id="@+id/title_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/title_back" />
+
+        <TextView
+            android:id="@+id/detail_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/title_white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/scrap_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/scrap_button_color"
+            android:clickable="true"
+            android:paddingBottom="8dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:text="스크랩"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:padding="5dip" >
+
+                <CheckBox
+                    android:id="@+id/heart_sender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/ico_list_reply_heart"
+                    android:button="@drawable/heart_checker"
+                    android:gravity="center_vertical" />
+
+                <com.foxrainbxm.jjlim.libary.CustomEditText
+                    android:id="@+id/reply_input"
+                    style="@style/input_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/intup_box_join"
+                    android:hint="@string/insert_reply"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="8dp"
+                    android:singleLine="false"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/reply_sender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/reply_insert"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/vpi__bright_foreground_disabled_holo_dark" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/vpi__bright_foreground_disabled_holo_dark" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_layout"
+            android:fillViewport="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="386dp"
+                android:orientation="vertical" >
+
+                <com.foxrainbxm.jjlim.libary.CustomEditText
+                    android:id="@+id/editText1"
+                    android:layout_width="1px"
+                    android:layout_height="1px"
+                    android:ems="10"
+                    android:hint="" >
+
+                    <requestFocus />
+                </com.foxrainbxm.jjlim.libary.CustomEditText>
+
+                <LinearLayout
+                    android:id="@+id/detail_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingRight="8dp" >
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="8dp" >
+
+                        <TextView
+                            android:id="@+id/sml_heart"
+                            style="@style/content_icos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ico_list_heart"
+                            android:text="0" />
+
+                        <TextView
+                            android:id="@+id/sml_heart_plus"
+                            style="@style/content_icos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ico_list_heart_dw"
+                            android:text="0"
+                            android:textColor="#FA8686"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp" />
+
+                        <TextView
+                            android:id="@+id/sml_reply"
+                            style="@style/content_icos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ico_list_reply"
+                            android:text="0" />
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp" />
+
+                        <TextView
+                            android:id="@+id/sml_scrap"
+                            style="@style/content_icos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ico_list_scrap"
+                            android:text="0" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/vpi__bright_foreground_disabled_holo_dark" />
+
+                <com.foxrainbxm.jjlim.libary.ExpandableHeightListView
+                    android:id="@+id/reply_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:clipToPadding="false"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="3dp"
+                    android:orientation="vertical" >
+                </com.foxrainbxm.jjlim.libary.ExpandableHeightListView>
+
+                <TextView
+                    android:id="@+id/more_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/sub_list_bg"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="더보기"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:textColor="#AFAFAF"
+                    android:visibility="gone" />
+
+                <View
+                    android:id="@+id/padding_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</LinearLayout>

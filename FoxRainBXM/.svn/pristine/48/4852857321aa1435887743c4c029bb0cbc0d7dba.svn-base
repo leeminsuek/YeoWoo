@@ -1,0 +1,79 @@
+package com.foxrainbxm;
+
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+
+import android.graphics.Bitmap;
+
+import com.brainyxlib.http.BrHttpManager;
+import com.brainyxlib.util.HttpRequestor;
+
+public class Common {
+	public static int SelectPosition = 0 ;
+	public static int NOTI_ID = 1000;
+	public static Bitmap profileBitmap = null;
+//	public static String Base = "http://brainyx711.iptime.org:5943";
+//	public static String Base = "http://brainyx711.iptime.org:6385/";
+	public static String Base = "http://183.111.148.117:8080";
+	public static String BaseUrl = Base +"/";
+//	private static String imghost = host +"/foxrain/images/";
+	
+	public static String ImageUrl = BaseUrl + "foxrain/images/";
+	public static String TIPBBSURL = "tip/main/tipList";
+	public static String TIPDETAIL  = "tip/main/tipDetail";
+	public static String DETAILREPLY = "tip/main/replyList"; 
+	public static String HEARTADD = "tip/main/heartAD";
+	public static String ISHEART = "tip/main/isMyHeart";
+	public static String ADDREPLY = "tip/main/addReply";
+	public static String ADDSCRAP = "tip/main/scrap";
+	public static String DELETETIP = "tip/main/deleteTip";
+	public static String ADDTIP = "tip/main/insertTip";
+	public static String UPDATETIP = "tip/main/updateTip";
+	public static String DELETEREPLY = "tip/main/deleteReply";
+	public static String NOTICEDETAIL = "/notice/main/getPost";
+	public static String LOG_OUT = "login/logout";
+	//public static String VIDEO_URL = "http://192.168.1.89/";
+	/**
+	 * http ��� api ����
+	 */
+	public void getHttpExample(){
+		try {
+			HttpRequestor http = BrHttpManager.getInstance().getHttpRequestor("url");
+			http.addParameter("key1", "value1");
+			http.addParameter("key2", "value2");
+			InputStream is = http.sendPost();
+			String[] resultdata = BrHttpManager.getInstance().ResultToJson(is);
+			/*resultdata[0] == �������� flag
+				resultdata[1] == data
+			*
+			*/
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	private static final char[] KEY_LIST = { '0', '1', '2', '3', '4', '5', '6',
+		'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+		'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+		'x', 'y', 'z' };
+	
+	private static Random rnd = new Random();
+	public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+
+	private static String getRandomStr() {
+		char[] rchar = { KEY_LIST[rnd.nextInt(36)], KEY_LIST[rnd.nextInt(36)],
+				KEY_LIST[rnd.nextInt(36)], KEY_LIST[rnd.nextInt(36)],
+				KEY_LIST[rnd.nextInt(36)], KEY_LIST[rnd.nextInt(36)], KEY_LIST[rnd.nextInt(36)]
+				, KEY_LIST[rnd.nextInt(36)] };
+		return String.copyValueOf(rchar);
+	}
+		
+	public static String getFileKey() {
+			return getRandomStr()
+					+ dateFormat.format(new Date(System.currentTimeMillis()));
+		}		
+	
+	
+}
